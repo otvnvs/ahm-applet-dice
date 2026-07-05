@@ -2,18 +2,19 @@
   <div class="a">
     <header class="b">
       <h1>Dice Roller</h1>
-      <p>Total: <b>{{ v ? v.reduce((s, c) => s + c, 0) : 0 }}</b></p>
+      <!-- Added a strict array check and baseline fallback to ensure accurate summation -->
+      <p>Total: <b>{{ (v && v.length) ? v.reduce((s, c) => s + Number(c), 0) : n }}</b></p>
     </header>
     <main class="c" :style="`grid-template-columns:repeat(${n>1?2:1},1fr)`">
       <div v-for="(x, i) in v" :key="i" :class="['d', { r }]">
         <div class="g">
-          <span v-for="p in 9" :key="p" :class="['p', { v: (parseInt('0080a082a82aa8'.substr(x*2,2),16) & (1 << (p-1))) }]"></span>
+          <span v-for="p in 9" :key="p" :class="['p', { v: (parseInt('0080a082a82aa8'.substr((x||1)*2,2),16) & (1 << (p-1))) }]"></span>
         </div>
       </div>
     </main>
     <footer class="f">
       <div class="s">
-        <button v-for="i in 4" :key="i" @click="n=i;v=Array(i).fill(1)" :disabled="r" :class="{e:n==i}">{{i}}</button>
+        <button v-for="i in 4" :key="i" @click="setCount(i)" :disabled="r" :class="{e:n==i}">{{i}}</button>
       </div>
       <button @click="k" :disabled="r" class="m">{{ r ? '...' : 'Roll Dice' }}</button>
     </footer>
@@ -21,23 +22,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+
 const n = ref(1)
-const v = ref([1]) // Instantiated with standard array layout to prevent runtime template crashes
+const v = ref([1]) // Instantiated explicitly as an active single item array to prevent template miscalculations
 const r = ref(false)
+
+const setCount = (i) => {
+  if (r.value) return
+  n.value = i
+  v.value = Array(i).fill(1)
+}
 
 const k = () => {
   if (r.value) return
   r.value = true
   let t = setInterval(() => {
-    if (v.value) v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
+    v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
   }, 50)
   setTimeout(() => { 
     clearInterval(t)
-    if (v.value) v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
+    v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
     r.value = false 
   }, 500)
 }
+
+// Guaranteed lifecycle guard rail to establish reliable tracking array instantly
+onMounted(() => {
+  setCount(1)
+})
 </script>
 
 <style scoped>
