@@ -7,7 +7,7 @@
     <main class="c" :style="`grid-template-columns:repeat(${n>1?2:1},1fr)`">
       <div v-for="(x, i) in v" :key="i" :class="['d', { r }]">
         <div class="g">
-          <span v-for="p in 9" :key="p" :class="['p', { v: [.includes(x) && p==1, .includes(x) && p==3, .includes(x) && p==4, .includes(x) && p==5, .includes(x) && p==6, .includes(x) && p==7, .includes(x) && p==9][p-1] || [2,4,6].includes(x) && p==1 || [2,4,6].includes(x) && p==9 || [3,5].includes(x) && p==1 || [3,5].includes(x) && p==9 || [4,5,6].includes(x) && p==3 || [4,5,6].includes(x) && p==7 || [6].includes(x) && p==4 || [6].includes(x) && p==6 || [1,3,5].includes(x) && p==5 }]"></span>
+          <span v-for="p in 9" :key="p" :class="['p', { v: (parseInt('0080a082a82aa8'.substr(x*2,2),16) & (1 << (p-1))) }]"></span>
         </div>
       </div>
     </main>
@@ -25,7 +25,7 @@ import { ref } from 'vue'
 const n = ref(1), v = ref([1]), r = ref(false)
 const k = () => {
   r.value = true
-  let c = 0, t = setInterval(() => v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1), 50)
+  let t = setInterval(() => v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1), 50)
   setTimeout(() => { clearInterval(t); r.value = false }, 500)
 }
 </script>
@@ -38,7 +38,7 @@ const k = () => {
 .g { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .p { width: 8px; height: 8px; border-radius: 50%; background: #fff; margin: auto; opacity: 0; }
 .p.v { opacity: 1; background: #818cf8; }
-@keyframes s { 0%, 100% { transform: scale(0.95) rotate(0); } 50% { transform: scale(0.95) translateY(-5px) rotate(4deg); } }
+@keyframes s { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(0.95) translateY(-4px) rotate(4deg); } }
 .r { animation: s 0.1s infinite; border-color: #6366f1; }
 .f { width: 100%; max-width: 260px; display: flex; flex-direction: column; gap: 10px; }
 .s { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
