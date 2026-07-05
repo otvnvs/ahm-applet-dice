@@ -3,14 +3,13 @@
     <!-- Header -->
     <header class="w-full max-w-md text-center pt-6">
       <div class="flex items-center justify-center gap-2 mb-1">
-        <!-- Custom SVG Dice Icon -->
-        <svg class="w-8 height-8 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="w-8 h-8 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
+          <circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\" fill=\"currentColor\"></circle>
+          <circle cx=\"15.5\" cy=\"8.5\" r=\"1.5\" fill=\"currentColor\"></circle>
+          <circle cx=\"15.5\" cy=\"15.5\" r=\"1.5\" fill=\"currentColor\"></circle>
+          <circle cx=\"8.5\" cy=\"15.5\" r=\"1.5\" fill=\"currentColor\"></circle>
+          <circle cx=\"12\" cy=\"12\" r=\"1.5\" fill=\"currentColor\"></circle>
         </svg>
         <h1 class="text-2xl font-black tracking-wider uppercase bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
           Dice Roller
@@ -43,31 +42,25 @@
           :key="index"
           class="aspect-square bg-gradient-to-br from-slate-800 to-slate-900 border-2 rounded-2xl p-4 flex flex-col justify-between shadow-2xl relative transition-all duration-300 transform"
           :class="[
-            isRolling ? 'animate-bounce border-indigo-500 shadow-indigo-500/10 scale-95 rotate-12' : 'border-slate-700 hover:border-slate-600',
+            isRolling ? 'animate-bounce-custom border-indigo-500 shadow-indigo-500/10 scale-95' : 'border-slate-700 hover:border-slate-600',
           ]"
         >
           <!-- Custom Dice Face Dot Layouts via Grid Matrix -->
-          <div class="w-full h-full grid grid-cols-3 grid-rows-3 gap-1 pointer-events-none">
-            <!-- Top Left -->
-            <div :class="[dotClass, [2,3,4,5,6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
-            <!-- Top Middle -->
+          <div class="w-full h-full grid grid-cols-3 grid-rows-3 gap-1 pointer-events-none p-1">
+            <!-- Row 1 -->
+            <div :class="[dotClass, [2, 3, 4, 5, 6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
             <div :class="[dotClass, 'opacity-0']"></div>
-            <!-- Top Right -->
-            <div :class="[dotClass, [4,5,6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
+            <div :class="[dotClass, [4, 5, 6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
             
-            <!-- Middle Left -->
+            <!-- Row 2 -->
             <div :class="[dotClass, [6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
-            <!-- Center -->
-            <div :class="[dotClass, [1,3,5].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
-            <!-- Middle Right -->
+            <div :class="[dotClass, [1, 3, 5].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
             <div :class="[dotClass, [6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
             
-            <!-- Bottom Left -->
-            <div :class="[dotClass, [4,5,6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
-            <!-- Bottom Middle -->
+            <!-- Row 3 -->
+            <div :class="[dotClass, [4, 5, 6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
             <div :class="[dotClass, 'opacity-0']"></div>
-            <!-- Bottom Right -->
-            <div :class="[dotClass, [2,3,4,5,6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
+            <div :class="[dotClass, [2, 3, 4, 5, 6].includes(value) ? 'opacity-100' : 'opacity-0']"></div>
           </div>
         </div>
       </div>
@@ -113,7 +106,7 @@ import { ref, computed } from 'vue'
 
 // App Configuration State
 const diceCount = ref(1)
-const diceValues = ref([1])
+const diceValues = ref([1]) // Initialised with one die
 const isRolling = ref(false)
 
 // Reusable styling class for dice pips
@@ -163,11 +156,11 @@ const rollDice = () => {
 }
 
 /* Subtle continuous drift style animation injection */
-@keyframes bounce {
+@keyframes bounceCustom {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-8px) rotate(4deg); }
 }
-.animate-bounce {
-  animation: bounce 0.15s infinite ease-in-out;
+.animate-bounce-custom {
+  animation: bounceCustom 0.15s infinite ease-in-out;
 }
 </style>
