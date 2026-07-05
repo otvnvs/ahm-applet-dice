@@ -1,7 +1,7 @@
 <template>
   <div class="a">
     <header class="b">
-      <h1>Dice</h1>
+      <h1>Dice Roller</h1>
       <p>Total: <b>{{ v.reduce((s, c) => s + c, 0) }}</b></p>
     </header>
     <main class="c" :style="`grid-template-columns:repeat(${n>1?2:1},1fr)`">
@@ -15,7 +15,7 @@
       <div class="s">
         <button v-for="i in 4" :key="i" @click="n=i;v=Array(i).fill(1)" :disabled="r" :class="{e:n==i}">{{i}}</button>
       </div>
-      <button @click="k" :disabled="r" class="m">{{ r ? '...' : 'Roll' }}</button>
+      <button @click="k" :disabled="r" class="m">{{ r ? '...' : 'Roll Dice' }}</button>
     </footer>
   </div>
 </template>
@@ -31,19 +31,19 @@ const k = () => {
 </script>
 
 <style scoped>
-.a { min-height: 100vh; background: #0b0f19; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 20px; font-family: sans-serif; box-sizing: border-box; }
-.b { text-align: center; } h1 { margin: 0; font-size: 24px; color: #818cf8; } p { margin: 5px 0; color: #94a3b8; }
-.c { display: grid; gap: 12px; width: 100%; max-width: 260px; margin: auto; }
-.d { aspect-ratio: 1; background: #1e293b; border: 2px solid #334155; border-radius: 12px; padding: 12px; }
+.a { min-height: 100vh; background: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 24px; font-family: sans-serif; box-sizing: border-box; }
+.b { text-align: center; } h1 { margin: 0; font-size: 22px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 1px; } p { margin: 6px 0; color: #94a3b8; font-size: 14px; }
+.c { display: grid; gap: 16px; width: 100%; max-width: 280px; margin: auto; }
+.d { aspect-ratio: 1; background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 12px; padding: 16px; }
 .g { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.p { width: 8px; height: 8px; border-radius: 50%; background: #fff; margin: auto; opacity: 0; }
-.p.v { opacity: 1; background: #818cf8; }
-@keyframes s { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(0.95) translateY(-4px) rotate(4deg); } }
-.r { animation: s 0.1s infinite; border-color: #6366f1; }
-.f { width: 100%; max-width: 260px; display: flex; flex-direction: column; gap: 10px; }
-.s { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-button { background: #111827; border: 1px solid #374151; color: #94a3b8; padding: 8px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-button.e { background: #4f46e5; color: #fff; border-color: #6366f1; }
-.m { background: #4f46e5; color: #fff; width: 100%; padding: 12px; border: none; }
-button:disabled { opacity: 0.5; cursor: not-allowed; }
+.p { width: 14px; height: 14px; border-radius: 50%; background: #000; margin: auto; opacity: 0; transition: opacity 0.1s; }
+.p.v { opacity: 1; background: #fff; box-shadow: 0 0 4px rgba(255,255,255,0.3); }
+@keyframes s { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(0.95) translateY(-5px) rotate(3deg); } }
+.r { animation: s 0.12s infinite linear; border-color: #444; }
+.f { width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 12px; }
+.s { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+button { background: #1c1c1e; border: 1px solid #2c2c2e; color: #a1a1aa; padding: 12px; font-weight: 700; cursor: pointer; border-radius: 0; }
+button.e { background: #fff; color: #000; border-color: #fff; }
+.m { background: #fff; color: #000; width: 100%; padding: 14px; border: none; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 0; }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>
