@@ -2,8 +2,6 @@
   <div class="a">
     <header class="b">
       <h1>Dice Roller</h1>
-      <!-- Added a strict array check and baseline fallback to ensure accurate summation -->
-      <p>Total: <b>{{ (v && v.length) ? v.reduce((s, c) => s + Number(c), 0) : n }}</b></p>
     </header>
     <main class="c" :style="`grid-template-columns:repeat(${n>1?2:1},1fr)`">
       <div v-for="(x, i) in v" :key="i" :class="['d', { r }]">
@@ -25,7 +23,7 @@
 import { ref, onMounted } from 'vue'
 
 const n = ref(1)
-const v = ref([1]) // Instantiated explicitly as an active single item array to prevent template miscalculations
+const v = ref([])
 const r = ref(false)
 
 const setCount = (i) => {
@@ -47,7 +45,6 @@ const k = () => {
   }, 500)
 }
 
-// Guaranteed lifecycle guard rail to establish reliable tracking array instantly
 onMounted(() => {
   setCount(1)
 })
@@ -55,7 +52,7 @@ onMounted(() => {
 
 <style scoped>
 .a { min-height: 100vh; background: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 24px; font-family: sans-serif; box-sizing: border-box; }
-.b { text-align: center; } h1 { margin: 0; font-size: 22px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 1px; } p { margin: 6px 0; color: #71717a; font-size: 14px; }
+.b { text-align: center; margin-bottom: 10px; } h1 { margin: 0; font-size: 22px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 1px; }
 .c { display: grid; gap: 16px; width: 100%; max-width: 280px; margin: auto; }
 .d { aspect-ratio: 1; background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 12px; padding: 16px; box-sizing: border-box; }
 .g { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
