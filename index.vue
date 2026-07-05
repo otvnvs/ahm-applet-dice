@@ -2,7 +2,7 @@
   <div class="a">
     <header class="b">
       <h1>Dice Roller</h1>
-      <p>Total: <b>{{ v.reduce((s, c) => s + c, 0) }}</b></p>
+      <p>Total: <b>{{ v ? v.reduce((s, c) => s + c, 0) : 0 }}</b></p>
     </header>
     <main class="c" :style="`grid-template-columns:repeat(${n>1?2:1},1fr)`">
       <div v-for="(x, i) in v" :key="i" :class="['d', { r }]">
@@ -22,11 +22,21 @@
 
 <script setup>
 import { ref } from 'vue'
-const n = ref(1), v = ref(), r = ref(false)
+const n = ref(1)
+const v = ref([1]) // Instantiated with standard array layout to prevent runtime template crashes
+const r = ref(false)
+
 const k = () => {
+  if (r.value) return
   r.value = true
-  let t = setInterval(() => v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1), 50)
-  setTimeout(() => { clearInterval(t); r.value = false }, 500)
+  let t = setInterval(() => {
+    if (v.value) v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
+  }, 50)
+  setTimeout(() => { 
+    clearInterval(t)
+    if (v.value) v.value = v.value.map(() => Math.floor(Math.random() * 6) + 1)
+    r.value = false 
+  }, 500)
 }
 </script>
 
@@ -34,7 +44,7 @@ const k = () => {
 .a { min-height: 100vh; background: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 24px; font-family: sans-serif; box-sizing: border-box; }
 .b { text-align: center; } h1 { margin: 0; font-size: 22px; color: #e2e8f0; text-transform: uppercase; letter-spacing: 1px; } p { margin: 6px 0; color: #71717a; font-size: 14px; }
 .c { display: grid; gap: 16px; width: 100%; max-width: 280px; margin: auto; }
-.d { aspect-ratio: 1; background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 12px; padding: 16px; }
+.d { aspect-ratio: 1; background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 12px; padding: 16px; box-sizing: border-box; }
 .g { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .p { width: 20px; height: 20px; border-radius: 50%; background: #000; margin: auto; opacity: 0; transition: opacity 0.1s; }
 .p.v { opacity: 1; background: #fff; }
